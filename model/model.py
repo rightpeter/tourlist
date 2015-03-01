@@ -5,9 +5,9 @@ from pymongo import MongoClient
 
 client = MongoClient('localhost', 27017)
 
-tldb = client.tourlist
+tourlistdb = client.tourlist
 
-UserCollection = tldb.user
+UserCollection = tourlistdb.user
 # id unique
 # email string unique
 # name string unique

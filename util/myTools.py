@@ -1,13 +1,13 @@
 #!/usr/bin/env python
+
 # -*- coding: utf-8 -*-
 
-from model import *
 from datetime import datetime
 
 import hashlib
 import uuid
 from random import choice
-# import re
+import re
 import time
 import json
 import tornado
@@ -45,62 +45,12 @@ def is_email(email):
     return bool(re.match(re_email, email, re.VERBOSE))
 
 
-def is_email_exist(email):
-    if is_email(email):
-        user = UserCollection.find_one({'email': email})
-        if user:
-            return True
-        else:
-            return False
+def get_hashed_password(password, salt):
+    return hashlib.sha512(password + salt).hexdigest()
 
 
-def is_name_exist(name):
-    user = UserCollection.find_one({'name': name})
-
-    if len(user):
-        return True
-    else:
-        return False
-
-
-def insert_a_user(user):
-    '''
-    user = {
-        'email': 'xxx@xx.xx',
-        'name': 'xxxx',
-        'password': 'xxxx',
-        }
-    '''
-    passwd = user['password']
-    salt = uuid.uuid4().hex
-    hashed_password = hashlib.sha512(passwd + salt).hexdigest()
-
-    try:
-        user['password'] = hashed_password
-        user['salt'] = salt
-        UserCollection.insert(user)
-        return True
-    except Exception, e:
-        print traceback.print_exc()
-        return False
-
-
-def login(email, password):
-    if not is_email_exist(email):
-        user = UserCollection.find_one({'email': email})
-        saved_password = user['password']
-        salt = user['salt']
-        hashed_password = hashlib.sha512(password + salt).hexdigest()
-        if hashed_password == saved_password:
-            UserCollection.find_and_modify(
-                query={'email': email},
-                update={'$set': {'last_login': datetime.utcnow()}},
-                upsert=False, full_response=True)
-            name = user['name']
-            print "email: ", email
-            print "name", name
-            return True
-    return False
+def get_random_salt():
+    return uuid.uuid4().hex
 
 
 def change_passwd(email, passwd, new_passwd, re_new_passwd):

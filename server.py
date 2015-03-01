@@ -19,14 +19,16 @@ class Application(tornado.web.Application):
             ('/', MainHandler),
             ('/api/login', APILoginHandler),
             ('/api/signup', APISignupHandler),
+            ('/api/logout', APILogoutHandler)
         ]
         settings = {
             'template_path': os.path.join(os.path.dirname(__file__), 'templates'),
             'static_path': os.path.join(os.path.dirname(__file__), 'static'),
             # 'ui_modules': uimodules,
-            'cookie_secret': 'rightpeter',
+            'cookie_secret': '#De1rFq@oyW^!kc3MI@74LY*^TPG6J8fkiG@xidDBF',
             'login_url': '/login',
             'xsrf_cookies': True,
+            'debug': True
         }
         tornado.web.Application.__init__(self, handlers, **settings)
 

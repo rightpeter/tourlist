@@ -6,6 +6,9 @@ from baseHandler import BaseHandler
 import util.myTools as myTools
 
 class MainHandler(BaseHandler):
+    def check_xsrf_cookie(self):
+        pass
+
     def get(self):
         self.write('Hello TourList!')
 

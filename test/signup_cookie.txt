@@ -1,0 +1,2 @@
+#LWP-Cookies-2.0
+Set-Cookie3: name="\"2|1:0|10:1425046154|4:name|16:cmlnaHRwZXRlcg==|e710452ed81324fbec499acd17e925b09869f783fb72478488231c60b85a54f2\""; path="/"; domain="localhost.local"; path_spec; expires="2015-03-29 14:09:14Z"; version=0
