@@ -5,6 +5,16 @@ from util import myTools
 from datetime import datetime
 from model import *
 
+
+def get_relation(user, guest):
+    '''
+    res = 1 : Friend
+    res = 0 : Stranger
+    '''
+    raise Exception('Unfinished function get_relation')
+    return res
+
+
 def login(email, password):
     if is_email_exist(email):
         user = UserCollection.find_one({'email': email})
@@ -51,12 +61,12 @@ def insert_a_user(user):
     try:
         user['password'] = hashed_password
         user['salt'] = salt
-        # print '--------insert_a_user-----------'
-        # print 'salt: ', user['salt']
-        # print 'password: ', password
-        # print 'hashed_passw: ', hashed_password
         UserCollection.insert(user)
         return True
     except Exception, e:
         print traceback.print_exc()
         return False
+
+
+def get_user_by_name(name):
+    return UserCollection.find({'name': name})

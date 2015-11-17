@@ -2,10 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import tornado.web
-from baseHandler import BaseHandler
-from operation import admincore
 import traceback
 from model import *
+import json
+
+from baseHandler import BaseHandler
+from operation import admincore
+from operation import listcore
 
 
 class APISignupHandler(BaseHandler):
@@ -63,3 +66,46 @@ class APILogoutHandler(BaseHandler):
     def post(self):
         self.clear_cookie('name')
         self.write('Logout Succeed!')
+
+
+class APIGetList(BaseHandler):
+    def check_xsrf_cookie(self):
+        pass
+
+    @tornado.web.authenticated
+    def post(self):
+        user = self.get_current_user()
+        lid = int(self.get_argument('lid'))
+        tlist = listcore.get_list(user, tlist)
+
+
+class APINewList(BaseHandler):
+    def check_xsrf_cookie(self):
+        pass
+
+    @tornado.web.authenticated
+    def post(self):
+        name = self.get_current_user()
+        raw_tlist_json = self.get_argument('tlist')
+        raw_tlist = json.loads(raw_tlist_json)
+        privilege = int(self.get_argument('privilege'))
+
+        tlist = []
+        for element in raw_tlist:
+            tlist.append([element, 0])
+
+        user = UserCollection.find({'name': name})
+        tlist_id = listcore.add_list(user, tlist, privilege)
+        self.write('tlist_id: %s' % tlist_id)
+
+
+class APIEdditList(BaseHandler):
+    def check_xsrf_cookie(self):
+        pass
+
+    @tornado.web.authenticated
+    def post(self):
+        name = self.get_current_user()
+        raw_tlist_json = self.get_argument('tlist')
+        raw_list = json.loads(raw_tlist_json)
+

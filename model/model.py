@@ -14,3 +14,12 @@ UserCollection = tourlistdb.user
 # password VARCHAR(512)
 # last_login timestamp
 # salt VARCHAR(64)
+ListCollection = tourlistdb.tlist
+# id unique
+# username -> user.name
+# tlist -> []
+#     tlist = [['string', done],
+#              ['string2', done2]
+#              ...
+# privilege int
+# display int

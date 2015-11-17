@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import sys
 import os
@@ -10,7 +10,7 @@ import tornado.web
 import tornado.ioloop
 import tornado.httpclient
 # tornado 3.x nolonger have this. use torndb
-#import tornado.database
+# import tornado.database
 import torndb
 import math
 import httplib
@@ -22,26 +22,27 @@ from config import *
 from model import *
 import util.myTools as myTools
 
+
 class SignupHandler(myTools.BaseHandler):
     def get(self):
         user = myTools.get_current_user(self)
-        #if self.get_secure_cookie('guest'):
-        #    user['name'] = self.get_secure_cookie('guest')
-        #    user['id'] = myTools.get_id_by_name(user['name'])
-        #    guest = self.get_secure_cookie('guest')
-        #elif self.get_current_user():
-        #    user['name'] = self.get_current_user()
-        #    user['id'] = myTools.get_id_by_name(user['name'])
+        # if self.get_secure_cookie('guest'):
+        #     user['name'] = self.get_secure_cookie('guest')
+        #     user['id'] = myTools.get_id_by_name(user['name'])
+        #     guest = self.get_secure_cookie('guest')
+        # elif self.get_current_user():
+        #     user['name'] = self.get_current_user()
+        #     user['id'] = myTools.get_id_by_name(user['name'])
         login_state = self.get_cookie('login')
         print 'sign up get!'
         self.render('signup.html', user=user, url='/', login_state=login_state)
 
     def post(self):
         print 'post: '
-        if ( myTools.is_a_attack(self) ):
+        if (myTools.is_a_attack(self)):
             print 'is_a_attack'
-            return 
-      
+            return
+
         print 'sign up post!'
         user = {}
         user['email'] = self.get_argument('email')
@@ -74,4 +75,3 @@ class SignupHandler(myTools.BaseHandler):
                         self.set_secure_cookie('guest', user['name'])
                         self.redirect('/signup')
         self.write('Signup Failed!')
-
